@@ -6,6 +6,10 @@ h3 {
   padding: 1rem;
 }
 
+.card-body a {
+  text-decoration: none;
+}
+
 .rating span {
   margin: 0.1rem;
 }

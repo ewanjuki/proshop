@@ -18,7 +18,7 @@ function Product() {
     };
 
     fetchProduct();
-  }, []);
+  }, [params.id]);
 
   return (
     <>

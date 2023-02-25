@@ -11,13 +11,13 @@ function Product() {
   const params = useParams();
 
   useEffect(() => {
-    const getProduct = async () => {
+    const fetchProduct = async () => {
       const { data } = await axios.get(`/api/products/${params.id}`);
 
       setProduct(data);
     };
 
-    getProduct();
+    fetchProduct();
   }, []);
 
   return (

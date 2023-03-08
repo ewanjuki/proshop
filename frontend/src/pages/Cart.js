@@ -17,7 +17,7 @@ import {
 } from "react-bootstrap";
 
 import Message from "../components/Message";
-import { addToCart } from "../actions/cartActions";
+import { addToCart, removeFromCart } from "../actions/cartActions";
 
 function Cart() {
   const params = useParams();
@@ -38,7 +38,7 @@ function Cart() {
   }, [dispatch, searchParams, params.productId]);
 
   const removeFromCartHandler = (id) => {
-    console.log("remove");
+    dispatch(removeFromCart(id));
   };
 
   const checkoutHandler = () => {
@@ -107,7 +107,7 @@ function Cart() {
             </ListGroup.Item>
             <ListGroup.Item>
               ${" "}
-              {cartItems.reduce((acc, item) => acc + item.qty * item.price, 0)}
+              {(cartItems.reduce((acc, item) => acc + item.qty * item.price, 0)).toFixed(2)}
             </ListGroup.Item>
             <ListGroup.Item>
               <Button

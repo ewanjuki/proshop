@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 import ProductItem from "../components/ProductItem";
 import { listProducts } from "../actions/productActions";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
 
 function Home() {
   const productList = useSelector((state) => state.productList);
@@ -18,11 +20,11 @@ function Home() {
   let content;
 
   if (loading) {
-    content = <h3>Loading...</h3>;
+    content = <Loader />;
   }
 
   if (!loading && error) {
-    content = <h3>{error}</h3>;
+    content = <Message variant="danger">{error}</Message>;
   }
 
   if (!loading && !error && products.length > 0) {

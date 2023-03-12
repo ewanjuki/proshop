@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getUserDetails } from "../actions/userActions";
+import { getUserDetails, updateUserProfile } from "../actions/userActions";
 
 function Profile() {
   const [name, setName] = useState("");
@@ -13,15 +13,17 @@ function Profile() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
-  
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userDetails = useSelector((state) => state.userDetails);
   const userLogin = useSelector((state) => state.userLogin);
-  const navigate = useNavigate();
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
 
   const { loading, error, user } = userDetails;
   const { userInfo } = userLogin;
-  
+  const { loading: updateProfileLoading, success } = userUpdateProfile;
+
   useEffect(() => {
     if (!userInfo) {
       navigate("/login");
@@ -39,7 +41,7 @@ function Profile() {
     e.preventDefault();
 
     if (password === confirmPassword) {
-      //   dispatch update profile
+      dispatch(updateUserProfile({ id: user._id, name, email, password }));
     } else {
       setMessage("Passwords don't match");
     }
@@ -50,8 +52,10 @@ function Profile() {
       <Col md={3}>
         <h2>User Profile</h2>
         {message && <Message variant="danger">{message}</Message>}
+        {success && <Message variant="success">Profile Updated</Message>}
         {error && <Message variant="danger">{error}</Message>}
         {loading && <Loader />}
+        {updateProfileLoading && <Loader />}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId="name">
             <Form.Label>Name</Form.Label>

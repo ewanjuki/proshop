@@ -23,11 +23,10 @@ function Login() {
     ? searchParams.get("redirect")
     : "/";
 
-  console.log(redirect);
-
   useEffect(() => {
     if (userInfo) {
-      navigate(`/${redirect}`);
+      const navTo = redirect === '/' ? '/' : `/${redirect}`;
+      navigate(navTo);
     }
   }, [redirect, userInfo, navigate]);
 

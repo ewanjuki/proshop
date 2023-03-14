@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import Message from "../components/Message";
 import CheckoutSteps from "../components/CheckoutSteps";
+import Loader from "../components/Loader";
 import { createOrder } from "../actions/orderActions";
 
 function PlaceOrder() {
@@ -31,7 +32,7 @@ function PlaceOrder() {
   ).toFixed(2);
 
   const orderCreate = useSelector(state => state.orderCreate);
-  const {order, success, error} = orderCreate;
+  const {order, success, loading, error} = orderCreate;
 
   useEffect(() => {
     if(success) {
@@ -141,6 +142,7 @@ function PlaceOrder() {
                 </Row>
               </ListGroup.Item>
               <ListGroup.Item>
+                {loading && <Loader />}
                 {error && <Message variant='danger'>{error}</Message>}
               </ListGroup.Item>
               <ListGroup.Item>

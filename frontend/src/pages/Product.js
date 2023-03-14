@@ -44,7 +44,7 @@ function Product() {
     navigate(`/cart/${params.id}?qty=${qty}`);
   };
 
-  if (!loading && !error && Object.keys(product).length !== 0) {
+  if (!loading && !error && product) {
     content = (
       <Row>
         <Col md={6}>

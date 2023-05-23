@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
-import { getUserDetails } from "../actions/userActions";
-import { LinkContainer } from "react-router-bootstrap";
+import { getUserDetails, updateUser } from "../actions/userActions";
+import { USER_UPDATE_RESET } from "../constants/userConstants";
 
 function UserEdit() {
   const params = useParams();
@@ -17,33 +17,48 @@ function UserEdit() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   const dispatch = useDispatch();
-  const userDetails = useSelector((state) => state.userDetails);
+  const navigate = useNavigate();
 
+  const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
+
+  const userUpdate = useSelector((state) => state.userUpdate);
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = userUpdate;
 
   const userId = params.id;
 
   useEffect(() => {
-    if (!user.name || user._id !== userId) {
-      dispatch(getUserDetails(userId));
+    if (successUpdate) {
+      dispatch({ type: USER_UPDATE_RESET });
+      navigate("/admin/userlist");
     } else {
-      setName(user.name);
-      setEmail(user.email);
-      setIsAdmin(user.isAdmin);
+      if (!user.name || user._id !== userId) {
+        dispatch(getUserDetails(userId));
+      } else {
+        setName(user.name);
+        setEmail(user.email);
+        setIsAdmin(user.isAdmin);
+      }
     }
-  }, [user, userId, dispatch]);
+  }, [user, userId, dispatch, successUpdate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
+
+    dispatch(updateUser({ _id: userId, name, email, isAdmin }));
   };
 
   let content;
-  if (loading) {
+  if (loading || loadingUpdate) {
     content = <Loader />;
   }
 
-  if (!loading && error) {
-    content = <Message variant="danger">{error}</Message>;
+  if (!loading && (error || errorUpdate)) {
+    content = <Message variant="danger">{error || errorUpdate}</Message>;
   }
 
   if (!loading && !error && user) {

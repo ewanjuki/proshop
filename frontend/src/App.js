@@ -16,6 +16,7 @@ import PlaceOrder from "./pages/PlaceOrder";
 import Order from "./pages/Order";
 import Users from "./pages/Users";
 import UserEdit from "./pages/UserEdit";
+import Products from "./pages/Products";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route path="/order/:id" element={<Order />} />
             <Route path="/admin/userlist" element={<Users />} />
             <Route path="/admin/user/:id/edit" element={<UserEdit />} />
+            <Route path="/admin/productlist" element={<Products />} />
           </Routes>
         </Container>
       </main>

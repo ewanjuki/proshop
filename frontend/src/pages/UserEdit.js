@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 import Message from "../components/Message";
@@ -44,7 +44,7 @@ function UserEdit() {
         setIsAdmin(user.isAdmin);
       }
     }
-  }, [user, userId, dispatch, successUpdate]);
+  }, [user, userId, successUpdate, dispatch, navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -53,47 +53,51 @@ function UserEdit() {
   };
 
   let content;
-  if (loading || loadingUpdate) {
+  if (loading) {
     content = <Loader />;
   }
 
-  if (!loading && (error || errorUpdate)) {
-    content = <Message variant="danger">{error || errorUpdate}</Message>;
+  if (!loading && error) {
+    content = <Message variant="danger">{error}</Message>;
   }
 
   if (!loading && !error && user) {
     content = (
-      <Form onSubmit={submitHandler}>
-        <Form.Group controlId="name">
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group controlId="email">
-          <Form.Label>Email Address</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group controlId="isadmin">
-          <Form.Check
-            type="checkbox"
-            label="Is Admin"
-            checked={isAdmin}
-            onChange={(e) => setIsAdmin(e.target.checked)}
-          ></Form.Check>
-        </Form.Group>
-        <Button type="submit" variant="primary" className="my-3">
-          Update
-        </Button>
-      </Form>
+      <>
+        {loadingUpdate && <Loader />}
+        {errorUpdate && <Message variant="dange"> {errorUpdate}</Message>}
+        <Form onSubmit={submitHandler}>
+          <Form.Group controlId="name">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group controlId="email">
+            <Form.Label>Email Address</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group controlId="isadmin">
+            <Form.Check
+              type="checkbox"
+              label="Is Admin"
+              checked={isAdmin}
+              onChange={(e) => setIsAdmin(e.target.checked)}
+            ></Form.Check>
+          </Form.Group>
+          <Button type="submit" variant="primary" className="my-3">
+            Update
+          </Button>
+        </Form>
+      </>
     );
   }
 

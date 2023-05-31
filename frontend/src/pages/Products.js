@@ -88,12 +88,12 @@ function Products() {
         <Table striped bordered hover responsive size="sm">
           <thead>
             <tr>
-              <td>ID</td>
-              <td>NAME</td>
-              <td>PRICE</td>
-              <td>CATEGORY</td>
-              <td>BRAND</td>
-              <td></td>
+              <th>ID</th>
+              <th>NAME</th>
+              <th>PRICE</th>
+              <th>CATEGORY</th>
+              <th>BRAND</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
